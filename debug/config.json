@@ -1,0 +1,147 @@
+{
+  "log": {
+    "loglevel": "debug"
+  },
+  "inbounds": [
+    {
+      "sniffing": {
+        "enabled": true,
+        "destOverride": [
+          "tls",
+          "http"
+        ]
+      },
+      "port": "10801",
+      "settings": {
+        "auth": "noauth",
+        "udp": false
+      },
+      "protocol": "socks",
+      "listen": "127.0.0.1"
+    },
+    {
+      "sniffing": {
+        "enabled": true,
+        "destOverride": [
+          "tls",
+          "http"
+        ]
+      },
+      "listen": "127.0.0.1",
+      "settings": {
+        "timeout": 360
+      },
+      "protocol": "http",
+      "port": "10871"
+    }
+  ],
+  "outbounds": [
+    {
+      "streamSettings": {
+        "tlsSettings": {
+          "fingerprint": "chrome",
+          "serverName": "",
+          "allowInsecure": true
+        },
+        "network": "tcp",
+        "security": "tls",
+        "tcpSettings": {
+          "header": {
+            "type": "none"
+          }
+        }
+      },
+      "tag": "proxy",
+      "mux": {
+        "enabled": false,
+        "concurrency": 8
+      },
+      "protocol": "trojan",
+      "settings": {
+        "servers": [
+          {
+            "address": "hk-2.victoriamitrepeak.com",
+            "level": 0,
+            "password": "wKb9FKPMdSOU6RvtVp",
+            "email": "",
+            "flow": "",
+            "port": 443
+          }
+        ]
+      }
+    },
+    {
+      "protocol": "freedom",
+      "settings": {
+        "domainStrategy": "UseIP",
+        "userLevel": 0
+      },
+      "tag": "direct"
+    },
+    {
+      "tag": "block",
+      "settings": {
+        "response": {
+          "type": "none"
+        }
+      },
+      "protocol": "blackhole"
+    }
+  ],
+  "dns": {
+    "hosts": {
+      "domain:v2fly.org": "www.vicemc.net",
+      "domain:github.io": "pages.github.com",
+      "domain:wikipedia.org": "www.wikimedia.org",
+      "domain:shadowsocks.org": "electronicsrealm.com"
+    },
+    "servers": [
+      "1.1.1.1",
+      {
+        "address": "114.114.114.114",
+        "port": 53,
+        "domains": [
+          "geosite:cn"
+        ]
+      },
+      "8.8.8.8",
+      "localhost"
+    ]
+  },
+  "routing": {
+    "settings": {
+      "domainStrategy": "AsIs",
+      "rules": [
+        {
+          "type": "field",
+          "domain": [
+            "geosite:category-ads"
+          ],
+          "outboundTag": "blocked"
+        }
+      ]
+    }
+  },
+  "transport": {},
+  "policy": {
+    "levels": {
+      "0": {
+        "uplinkOnly": 0,
+        "downlinkOnly": 0
+      }
+    },
+    "system": {
+      "statsInboundUplink": false,
+      "statsInboundDownlink": false,
+      "statsOutboundUplink": false,
+      "statsOutboundDownlink": false
+    }
+  },
+  "stats": {},
+  "api": {
+    "tag": "api",
+    "services": [
+    ]
+  },
+  "other": {}
+}
